@@ -1,3 +1,5 @@
+from idlelib.pyshell import usage_msg
+
 from openai import OpenAI
 
 # 读取API key
@@ -14,4 +16,10 @@ completion = client.chat.completions.create(
 )
 
 gpt_reply = completion.choices[0].message.content
+usage = completion.usage
 print(gpt_reply)
+print('-----------')
+print(usage)
+
+output_tokens = usage.completion_tokens
+input_tokens = usage.prompt_tokens

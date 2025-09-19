@@ -26,8 +26,13 @@ handler = WebhookHandler('46be525ddb8364e48c64667e65687cb9')
 
 with open('key.txt', 'r') as f:
     api_key = f.read().strip()
-
 client = OpenAI(api_key=api_key)
+
+def read_menu():
+    with open('coffee_menu.txt', 'r', encoding='utf8') as f:
+        menu = f.read()
+    return menu
+menu = read_menu()
 
 
 @app.route("/", methods=['POST'])
@@ -53,7 +58,7 @@ def use_gpt(user_msg): # use GPT API to generate a reply
     completion = client.chat.completions.create(
         model="gpt-5",
         messages=[
-            {"role": "system", "content": "你是一個line聊天機器人."},
+            {"role": "system", "content": "你是一個咖啡店客服,我們的菜單有:" + menu},
             {"role": "user", "content": user_msg}
         ]
     )

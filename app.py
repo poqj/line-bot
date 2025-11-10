@@ -21,7 +21,7 @@ from linebot.v3.webhooks import (
 app = Flask(__name__)
 
 from openai import OpenAI
-from gpt_funcs import create_assistant, create_thread, add_user_message_to_thread, wait_for_assistant_run
+from gpt_funcs import create_assistant, create_thread, add_user_message_to_thread, wait_for_assistant_run, update_assistant
 
 configuration = Configuration(access_token='f6LAqltDbyrVnC6bdYUQTRD/vrbXyETeUSbZzGnUG7Tiy1viDVKLTG4g1tYlWBGvda704Z1WLsveWCRXEaVDoO2VSuAKYxqpIssxA0JbFZCnOAIRkNtnseolpl9jvFhf92oL/PXsA0+MqDbM6IbUywdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('46be525ddb8364e48c64667e65687cb9')
@@ -31,6 +31,7 @@ with open('key.txt', 'r') as f:
 client = OpenAI(api_key=api_key)
 
 assistant_id = create_assistant(client)
+update_assistant(client, assistant_id)
 tread_id = create_thread(client)
 # tread_id = 'thread_KH5l8sKKXwpngqeE5KWj1vYP'  # Use a fixed thread ID for simplicity
 

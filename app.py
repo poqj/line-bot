@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, abort
 
 from linebot.v3 import (
@@ -26,8 +27,11 @@ from gpt_funcs import create_assistant, create_thread, add_user_message_to_threa
 configuration = Configuration(access_token='f6LAqltDbyrVnC6bdYUQTRD/vrbXyETeUSbZzGnUG7Tiy1viDVKLTG4g1tYlWBGvda704Z1WLsveWCRXEaVDoO2VSuAKYxqpIssxA0JbFZCnOAIRkNtnseolpl9jvFhf92oL/PXsA0+MqDbM6IbUywdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('46be525ddb8364e48c64667e65687cb9')
 
-with open('key.txt', 'r') as f:
-    api_key = f.read().strip()
+try:
+    with open('key.txt', 'r') as f:
+        api_key = f.read().strip()
+except FileNotFoundError:
+        api_key = os.getenv('OPENAI_API_KEY')
 client = OpenAI(api_key=api_key)
 
 assistant_id = create_assistant(client)

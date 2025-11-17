@@ -10,8 +10,8 @@ with open('coffee_menu.txt', 'r', encoding='utf8') as f:
 # Step 1: Create an assistant
 GPT_MODEL = "gpt-4o"
 ASSISTANT_NAME = "咖啡店客服"
-ASSISTANT_INSTRUCTIONS = "你是一個咖啡店客服,在傳送訊息時可以加入適當表情符號,請一律依照我們的菜單內容做回答,我們沒提供的餐點就說沒有,菜單內容請讀取檔案coffee_menu.txt"
-ASSISTANT_INSTRUCTION_WHEN_RUN = "你是一個咖啡店客服,在傳送訊息時可以加入適當表情符號,請一律依照我們的菜單內容做回答,我們沒提供的餐點就說沒有,菜單內容請讀取檔案coffee_menu.txt"
+ASSISTANT_INSTRUCTIONS = "你是一個咖啡店客服,使用反體中文回答,在傳送訊息時可以加入適當表情符號,請一律依照我們的菜單內容做回答,我們沒提供的餐點就說沒有,菜單內容請讀取檔案coffee_menu.txt"
+ASSISTANT_INSTRUCTION_WHEN_RUN = "你是一個咖啡店客服,使用反體中文回答,在傳送訊息時可以加入適當表情符號,請一律依照我們的菜單內容做回答,我們沒提供的餐點就說沒有,菜單內容請讀取檔案coffee_menu.txt"
 GPT_FILE_VECTOR_STORE_ID = 'vs_6911271788648191955a0dece393080b'
 
 def create_assistant(client):

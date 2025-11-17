@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, request, abort
 
 from linebot.v3 import (
@@ -24,15 +25,28 @@ app = Flask(__name__)
 from openai import OpenAI
 from gpt_funcs import create_assistant, create_thread, add_user_message_to_thread, wait_for_assistant_run, update_assistant
 
-configuration = Configuration(access_token='f6LAqltDbyrVnC6bdYUQTRD/vrbXyETeUSbZzGnUG7Tiy1viDVKLTG4g1tYlWBGvda704Z1WLsveWCRXEaVDoO2VSuAKYxqpIssxA0JbFZCnOAIRkNtnseolpl9jvFhf92oL/PXsA0+MqDbM6IbUywdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('46be525ddb8364e48c64667e65687cb9')
+# Read configuration from key.json or environment variables
+def load_config():
+    config = {}
+    try:
+        with open('key.json', 'r', encoding='utf-8') as f:
+            config = json.load(f)
+    except FileNotFoundError:
+        pass
 
-try:
-    with open('key.txt', 'r') as f:
-        api_key = f.read().strip()
-except FileNotFoundError:
-        api_key = os.getenv('OPENAI_API_KEY')
+    # Get values from config file or environment variables
+    openai_api_key = config.get('OPENAI_API_KEY') or os.getenv('OPENAI_API_KEY')
+    line_access_token = config.get('LINE_ACCESS_TOKEN') or os.getenv('LINE_ACCESS_TOKEN')
+    webhook_secret = config.get('WEBHOOK_SECRET') or os.getenv('WEBHOOK_SECRET')
+
+    return openai_api_key, line_access_token, webhook_secret
+
+api_key, token, webhook_secret = load_config()
+
+handler = WebhookHandler(webhook_secret)
+configuration = Configuration(access_token=token)
 client = OpenAI(api_key=api_key)
+
 
 assistant_id = create_assistant(client)
 update_assistant(client, assistant_id)
